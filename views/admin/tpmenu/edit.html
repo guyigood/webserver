@@ -1,0 +1,141 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>微信菜单管理</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="/static/style/layui2/css/layui.css" media="all">
+    <link rel="stylesheet" href="/static/style/css/admin.css" media="all">
+<body>
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-header">微信菜单管理</div>
+        <div class="layui-card-body" style="padding: 15px;">
+            <!-- 表单开始部分  -->
+            <form class="layui-form" action="" lay-filter="edit_form">
+            {{if eq .edit_flag "1" }}
+                <input type=hidden name='id' value="{{.data.id}}">
+            {{end}}
+                <div class="layui-form-item">
+                    <label class="layui-form-label">上级菜单</label>
+                    <div class="layui-input-inline">
+                        <select name="pid">
+                            <option value="0">顶级菜单</option>
+                        {{range  $key,$vo:=.menu }}
+                            <option value='{{$vo.id}}' {{if eq $.data.pid $vo.id }}selected{{end}}>{{$vo.title}}</option>
+                        {{end}}
+
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">标题</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="title" placeholder="请输入标题"
+                               value="{{.data.title}}" id="title" lay-fiter="title" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">关键字</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="keyword" placeholder="请输入关键字"
+                               value="{{.data.keyword}}" id="keyword" lay-fiter="keyword" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">地址</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="url" placeholder="请输入地址"
+                               value="{{.data.url}}" id="url" lay-fiter="url" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">是否显示</label>
+                    <div class="layui-input-inline">
+
+                        <input type="radio" name="is_show" value="1" title="是"
+                               {{if eq .data.is_show "1"}}checked=""{{end}}>
+                        <input type="radio" name="is_show" value="0" title="否"
+                               {{if eq .data.is_show "0"}}checked=""{{end}}>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">排序</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="sort" placeholder="请输入排序"
+                               value="{{.data.sort}}" id="sort" lay-fiter="sort" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">菜单类别</label>
+                    <div class="layui-input-inline">
+                        <select name="wxsys">
+                            <option value='' >功能类别</option>
+                            <option value='VIEW' {{if eq $.data.wxsys "VIEW" }}selected{{end}}>VIEW</option>
+                            <option value='SCAN' {{if eq $.data.wxsys "SCAN" }}selected{{end}}>SCAN</option>
+                            <option value='CLICK' {{if eq $.data.wxsys "CLICK" }}selected{{end}}>CLICK</option>
+
+                        </select>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" lay-submit="" lay-filter="tj">立即提交</button>
+                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- 表单结束部分  -->
+
+<script type="text/javascript" src="/static/style/layui2/layui.js"></script>
+<script>
+    layui.use(['form', 'upload', 'laydate', 'layedit', 'layer'], function () {
+        var form = layui.form,
+                upload = layui.upload,
+                laydate = layui.laydate,
+                layedit = layui.layedit,
+                $ = layui.$;
+
+
+        function init_form() {
+        }
+
+        var is_submit = false;
+        form.on('submit(tj)', function (data) {
+            if (is_submit) {
+                layer.alert('请勿多次提交数据');
+                return false;
+            }
+            is_submit = true;
+            $.ajax({
+                url: "/admin/tpmenu_save/",
+                type: 'POST',
+                data: data.field,
+                dataType: 'json',
+                success: function (res) {
+                    layer.alert(res.msg);
+                    if (res.status == 100) {
+                        var index = parent.layer.getFrameIndex(window.name);
+                        //parent.close();
+                        parent.layui.table.reload('table_id');
+                        parent.layer.close(index);
+                    } else {
+                        is_submit = false;
+                    }
+
+                }
+            });
+            return false;
+        });
+        init_form();
+    });
+</script>
+</body>
+</html>

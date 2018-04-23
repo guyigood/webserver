@@ -1,0 +1,2 @@
+db.Dbinit()
+this.Data["{{tb_name}}"]=db.Tbname("{{tb_name}}").Where("{{where}}").Select()

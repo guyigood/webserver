@@ -1,0 +1,13 @@
+<div class="layui-form-item">
+    <div  class="layui-inline">
+        <label class="layui-form-label">{{cn_name}}</label>
+        <div class="layui-input-inline layui-upload">
+            <input type="hidden" name="{{name}}" id="{{name}}_hd" value="{{.data.{{name}}}}">
+            <button type="button" class="layui-btn" id="{{name}}_btn">上传图片</button>
+            <div class="layui-upload-list ">
+                <img class="layui-upload-img" id="{{name}}_img" style="width:100px;height:auto" {{if ne .data.{{name}} ""}} src="{{.data.{{name}}}}.thumb"{{end}}>
+                <p id="{{name}}_demoText"></p>
+            </div>
+        </div>
+    </div>
+</div>

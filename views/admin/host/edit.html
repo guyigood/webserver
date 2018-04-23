@@ -1,0 +1,111 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>路由服务器管理</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="/static/style/layui2/css/layui.css" media="all">
+    <link rel="stylesheet" href="/static/style/css/admin.css" media="all">
+<body>
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-header">路由服务器管理</div>
+        <div class="layui-card-body" style="padding: 15px;">
+            <!-- 表单开始部分  -->
+            <form class="layui-form" action="" lay-filter="edit_form">
+            {{if eq .edit_flag "1" }}
+                <input type=hidden name='id' value="{{.data.id}}">
+            {{end}}
+                <div class="layui-form-item">
+                    <label class="layui-form-label">应用名</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="name" placeholder="请输入应用名"
+                               value="{{.data.name}}" id="name" lay-fiter="name" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">中文说明</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="cn_name" placeholder="请输入中文说明"
+                               value="{{.data.cn_name}}" id="cn_name" lay-fiter="cn_name" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">主机地址</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="host" placeholder="请输入主机地址"
+                               value="{{.data.host}}" id="host" lay-fiter="host" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">端口号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="port" placeholder="请输入端口号"
+                               value="{{.data.port}}" id="port" lay-fiter="port" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" lay-submit="" lay-filter="tj">立即提交</button>
+                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- 表单结束部分  -->
+
+<script type="text/javascript" src="/static/style/layui2/layui.js"></script>
+<script>
+    layui.use(['form', 'upload', 'laydate', 'layedit', 'layer'], function () {
+        var form = layui.form,
+                upload = layui.upload,
+                laydate = layui.laydate,
+                layedit = layui.layedit,
+                $ = layui.$;
+
+
+        function init_form() {
+        }
+
+        var is_submit = false;
+        form.on('submit(tj)', function (data) {
+            if (is_submit) {
+                layer.alert('请勿多次提交数据');
+                return false;
+            }
+            is_submit = true;
+            $.ajax({
+                url: "/admin/host_save/",
+                type: 'POST',
+                data: data.field,
+                dataType: 'json',
+                success: function (res) {
+                    if (res.status == 100) {
+                        layer.alert(res.msg, function(index){
+                            layer.close(index);
+                            var index = parent.layer.getFrameIndex(window.name);
+                            //parent.close();
+                            parent.layui.table.reload('table_id');
+                            parent.layer.close(index);
+                        });
+
+                    } else {
+                        layer.alert(res.msg)
+                        is_submit = false;
+                    }
+
+                }
+            });
+            return false;
+        });
+        init_form();
+    });
+</script>
+</body>
+</html>

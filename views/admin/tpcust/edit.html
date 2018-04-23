@@ -1,0 +1,236 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>粉丝信息查看</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="/static/style/layui2/css/layui.css" media="all">
+    <link rel="stylesheet" href="/static/style/css/admin.css" media="all">
+<body>
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-header">粉丝信息查看</div>
+        <div class="layui-card-body" style="padding: 15px;">
+            <!-- 表单开始部分  -->
+            <form class="layui-form" action="" lay-filter="edit_form">
+            {{if eq .edit_flag "1" }}
+                <input type=hidden name='id' value="{{.data.id}}">
+            {{end}}
+               <div class="layui-form-item">
+    <label class="layui-form-label">微信ID</label>
+    <div class="layui-input-inline">
+        <input type="text" name="wecha_id"  placeholder="请输入微信ID"
+               value="{{.data.wecha_id}}" id="wecha_id" lay-fiter="wecha_id" class="layui-input" >
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">微信名</label>
+    <div class="layui-input-inline">
+        <input type="text" name="wechaname"  placeholder="请输入微信名"
+               value="{{.data.wechaname}}" id="wechaname" lay-fiter="wechaname" class="layui-input" >
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">真实名称</label>
+    <div class="layui-input-inline">
+        <input type="text" name="truename"  placeholder="请输入真实名称"
+               value="{{.data.truename}}" id="truename" lay-fiter="truename" class="layui-input" >
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">电话</label>
+    <div class="layui-input-inline">
+        <input type="text" name="tel"  placeholder="请输入电话"
+               value="{{.data.tel}}" id="tel" lay-fiter="tel" class="layui-input" >
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">性别</label>
+    <div class="layui-input-inline">
+       
+<input type="radio" name="sex" value="1" title="男" {{if eq .data.sex "1"}}checked=""{{end}}>
+<input type="radio" name="sex" value="0" title="女" {{if eq .data.sex "0"}}checked=""{{end}}>
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">地址</label>
+    <div class="layui-input-inline">
+        <input type="text" name="address"  placeholder="请输入地址"
+               value="{{.data.address}}" id="address" lay-fiter="address" class="layui-input" >
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">备注</label>
+    <div class="layui-input-inline">
+        <input type="text" name="info"  placeholder="请输入备注"
+               value="{{.data.info}}" id="info" lay-fiter="info" class="layui-input" >
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">头像</label>
+    <div class="layui-input-inline">
+        <input type="text" name="portrait"  placeholder="请输入头像"
+               value="{{.data.portrait}}" id="portrait" lay-fiter="portrait" class="layui-input" >
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">支付密码</label>
+    <div class="layui-input-inline">
+        <input type="text" name="paypass"  placeholder="请输入支付密码"
+               value="{{.data.paypass}}" id="paypass" lay-fiter="paypass" class="layui-input" >
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">账号</label>
+    <div class="layui-input-inline">
+        <input type="text" name="username"  placeholder="请输入账号"
+               value="{{.data.username}}" id="username" lay-fiter="username" class="layui-input" >
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">密码</label>
+    <div class="layui-input-inline">
+        <input type="text" name="password"  placeholder="请输入密码"
+               value="{{.data.password}}" id="password" lay-fiter="password" class="layui-input" >
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">城市</label>
+    <div class="layui-input-inline">
+        <input type="text" name="city"  placeholder="请输入城市"
+               value="{{.data.city}}" id="city" lay-fiter="city" class="layui-input" >
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">省份</label>
+    <div class="layui-input-inline">
+        <input type="text" name="province"  placeholder="请输入省份"
+               value="{{.data.province}}" id="province" lay-fiter="province" class="layui-input" >
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">注册时间</label>
+    <div class="layui-input-inline">
+        <input type="text" name="regtime"  placeholder="请输入注册时间"
+               value="{{.data.regtime}}" id="regtime" lay-fiter="regtime" class="layui-input" >
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">status</label>
+    <div class="layui-input-inline">
+        <input type="text" name="status"  placeholder="请输入status"
+               value="{{.data.status}}" id="status" lay-fiter="status" class="layui-input" >
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">上级ID</label>
+    <div class="layui-input-inline">
+        <input type="text" name="for_id"  placeholder="请输入上级ID"
+               value="{{.data.for_id}}" id="for_id" lay-fiter="for_id" class="layui-input" >
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">money</label>
+    <div class="layui-input-inline">
+        <input type="text" name="money"  placeholder="请输入money"
+               value="{{.data.money}}" id="money" lay-fiter="money" class="layui-input" >
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">公司ID</label>
+    <div class="layui-input-inline">
+        <input type="text" name="company_id"  placeholder="请输入公司ID"
+               value="{{.data.company_id}}" id="company_id" lay-fiter="company_id" class="layui-input" >
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">token</label>
+    <div class="layui-input-inline">
+        <input type="text" name="token"  placeholder="请输入token"
+               value="{{.data.token}}" id="token" lay-fiter="token" class="layui-input" >
+    </div>
+</div>
+
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" lay-submit="" lay-filter="tj">立即提交</button>
+                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- 表单结束部分  -->
+
+<script type="text/javascript" src="/static/style/layui2/layui.js"></script>
+<script>
+    layui.use(['form','upload','laydate','layedit', 'layer'], function () {
+        var form = layui.form,
+         upload = layui.upload,
+                laydate=layui.laydate,
+                layedit = layui.layedit,
+                $ = layui.$;
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        function init_form() {
+        }
+
+        var is_submit = false;
+        form.on('submit(tj)', function (data) {
+            if (is_submit) {
+                layer.alert('请勿多次提交数据');
+                return false;
+            }
+            is_submit = true;
+            $.ajax({
+                url: "/admin/tpcust_save/",
+                type: 'POST',
+                data: data.field,
+                dataType: 'json',
+                success: function (res) {
+                    if (res.status == 100) {
+                        layer.alert(res.msg, function(index){
+                            layer.close(index);
+                            var index = parent.layer.getFrameIndex(window.name);
+                            //parent.close();
+                            parent.layui.table.reload('table_id');
+                            parent.layer.close(index);
+                        });
+
+                    } else {
+                        layer.alert(res.msg)
+                        is_submit = false;
+                    }
+
+                }
+            });
+            return false;
+        });
+        init_form();
+    });
+</script>
+</body>
+</html>

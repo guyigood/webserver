@@ -1,0 +1,217 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>商品分类</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="/static/style/layui2/css/layui.css" media="all">
+    <link rel="stylesheet" href="/static/style/css/admin.css" media="all">
+<body>
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-header">商品分类</div>
+        <div class="layui-card-body" style="padding: 15px;">
+            <!-- 表单开始部分  -->
+            <form class="layui-form" action="" lay-filter="edit_form">
+            {{if eq .edit_flag "1" }}
+                <input type=hidden name='id' value="{{.data.id}}">
+            {{end}}
+                <div class="layui-form-item">
+                    <label class="layui-form-label">分类名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="name" placeholder="请输入商品分类名称"
+                               value="{{.data.name}}" id="name" lay-fiter="name" class="layui-input" required
+                               lay-verify="">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">移动端名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="mobile_name" placeholder="请输入移动端名称"
+                               value="{{.data.mobile_name}}" id="mobile_name" lay-fiter="mobile_name"
+                               class="layui-input" required lay-verify="">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">上级菜单</label>
+                    <div class="layui-input-inline">
+                        <input type="hidden" name="parent_id" id="parent_id" value="{{.data.parent_id}}">
+                        <input type="text" name="parent_id_name" placeholder="请输入上级菜单"
+                               value="{{.data.parent_id_name}}" id="parent_id_name" lay-fiter="parent_id_name" class="layui-input" onclick="showpop();" readonly>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">顺序排序</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="sort_order" placeholder="请输入顺序排序"
+                               value="{{.data.sort_order}}" id="sort_order" lay-fiter="sort_order" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">是否显示</label>
+                    <div class="layui-input-inline">
+
+                        <input type="radio" name="is_show" value="1" title="是"
+                               {{if eq .data.is_show "1"}}checked=""{{end}}>
+                        <input type="radio" name="is_show" value="0" title="否"
+                               {{if eq .data.is_show "0"}}checked=""{{end}}>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">分类图片</label>
+                        <div class="layui-input-inline layui-upload">
+                            <input type="hidden" name="image" id="image_hd" value="{{.data.image}}}">
+                            <button type="button" class="layui-btn" id="image_btn">上传图片</button>
+                            <div class="layui-upload-list ">
+                                <img class="layui-upload-img" id="image_img"
+                                     style="width:100px;height:auto" {{if ne .data.image ""}}
+                                     src="{{.data.image}}.thumb"{{end}}>
+                                <p id="image_demoText"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">热门分类</label>
+                    <div class="layui-input-inline">
+
+                        <input type="radio" name="is_hot" value="1" title="是"
+                               {{if eq .data.is_hot "1"}}checked=""{{end}}>
+                        <input type="radio" name="is_hot" value="0" title="否"
+                               {{if eq .data.is_hot "0"}}checked=""{{end}}>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">分类分组</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="cat_group" placeholder="请输入分类分组"
+                               value="{{.data.cat_group}}" id="cat_group" lay-fiter="cat_group" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">分佣比例</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="commission_rate" placeholder="请输入分佣比例"
+                               value="{{.data.commission_rate}}" id="commission_rate" lay-fiter="commission_rate"
+                               class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" lay-submit="" lay-filter="tj">立即提交</button>
+                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- 表单结束部分  -->
+
+<script type="text/javascript" src="/static/style/layui2/layui.js"></script>
+<script>
+    layui.use(['form', 'upload', 'laydate', 'layedit', 'layer'], function () {
+        var form = layui.form,
+                upload = layui.upload,
+                laydate = layui.laydate,
+                layedit = layui.layedit,
+                $ = layui.$;
+
+
+        var uploadInst = upload.render({
+            elem: '#image_btn'
+            , field: "uploadImage"
+            , url: '/admin/lay_upload_file/'
+            , before: function (obj) {
+//预读本地文件示例，不支持ie8
+                obj.preview(function (index, file, result) {
+                    $('#image_img').attr('src', result); //图片链接（base64）
+                });
+            }
+            , done: function (res) {
+//如果上传失败
+                if (res.code > 0) {
+                    return layer.msg('上传失败');
+                } else {
+                    $('#image_hd').val(res.data.src);
+                }
+
+//上传成功
+            }
+            , error: function () {
+//演示失败状态，并实现重传
+                var demoText = $('#image_demoText');
+                demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-mini demo-reload">重试</a>');
+                demoText.find('.demo-reload').on('click', function () {
+                    uploadInst.upload();
+                });
+            }
+        });
+
+
+        function init_form() {
+
+        }
+
+        form.on('click(parent_id_name)',function () {
+            layer.open({
+                type: 2 //此处以iframe举例
+                , title: '分类选择'
+                , maxmin: true
+                ,area: ['380px', '270px']
+                , content: '/admin/show_parent_menu/'
+            });
+        });
+
+        var is_submit = false;
+        form.on('submit(tj)', function (data) {
+            if (is_submit) {
+                layer.alert('请勿多次提交数据');
+                return false;
+            }
+            is_submit = true;
+
+            $.ajax({
+                url: "/admin/goodscategory_save/",
+                type: 'POST',
+                data: data.field,
+                dataType: 'json',
+                success: function (res) {
+                    if (res.status == 100) {
+                        layer.alert(res.msg, function (index) {
+                            layer.close(index);
+                            var index = parent.layer.getFrameIndex(window.name);
+                            //parent.close();
+                            parent.layui.table.reload('table_id');
+                            parent.layer.close(index);
+                        });
+
+                    } else {
+                        layer.alert(res.msg)
+                        is_submit = false;
+                    }
+
+                }
+            });
+            return false;
+        });
+        init_form();
+    });
+    function showpop() {
+        layer.open({
+            type: 2 //此处以iframe举例
+            , title: '分类选择'
+            ,area: ['380px', '350px']
+            , maxmin: true
+            , content: '/admin/show_parent_menu/'
+        });
+    }
+</script>
+</body>
+</html>

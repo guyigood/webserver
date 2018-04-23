@@ -1,0 +1,275 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>数据编辑</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="/static/style/layui2/css/layui.css" media="all">
+    <link rel="stylesheet" href="/static/style/css/admin.css" media="all">
+<body>
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-header">字段编辑</div>
+        <div class="layui-card-body" style="padding: 15px;">
+            <!-- 表单开始部分  -->
+            <form class="layui-form" action="" lay-filter="component-form-group">
+            {{if eq .edit_flag "1" }}
+                <input type=hidden name='id' value="{{.data.id}}">
+            {{end}}
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                    <label class="layui-form-label">字段名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="name" required lay-verify="required" placeholder="名称"
+                               value="{{ .data.name }}" autocomplete="off" class="layui-input">
+                    </div>
+                    </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">中文名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="cn_name" required lay-verify="required" placeholder="请输入名称"
+                               value="{{ .data.cn_name }}" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">字段类型</label>
+                    <div class="layui-input-inline">
+                        <select name="f_type" id="f_type" lay-filter="f_type">
+                            <option {{if eq .data.f_type "单行文本"}} selected {{end}}>单行文本</option>
+                            <option {{if eq .data.f_type "密码"}} selected {{end}}>密码</option>
+                            <option {{if eq .data.f_type "下拉框"}} selected {{end}}>下拉框</option>
+                            <option {{if eq .data.f_type "单选框"}} selected {{end}}>单选框</option>
+                            <option {{if eq .data.f_type "多选框"}} selected {{end}}>多选框</option>
+                            <option {{if eq .data.f_type  "日期时间"}} selected {{end}}>日期时间</option>
+                            <option {{if eq .data.f_type "多行文本"}} selected {{end}}>多行文本</option>
+                            <option {{if eq .data.f_type  "富文本"}} selected {{end}}>富文本</option>
+                            <option {{if eq .data.f_type  "单图片"}} selected {{end}}>单图片</option>
+                            <option {{if eq .data.f_type  "多图片"}} selected {{end}}>多图片</option>
+                        </select>
+                    </div>
+                </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline"  style="display:none" id="list_db" >
+                        <label class="layui-form-label">数据源选择</label>
+                        <div class="layui-input-inline">
+                            <select name="list_tb_name" id="list_tb_name" lay-search lay-filter="list_tb_name">
+                                <option value="0">无需数据源</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="ck_list" style="display:none">
+                    <div class="layui-inline">
+                            <label class="layui-form-label">显示字段</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="list_display" placeholder="名称"
+                                       value="{{ .data.list_display }}" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">关联字段</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="list_val" placeholder="请输入名称"
+                                       value="{{ .data.list_val }}" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">是否搜索</label>
+                        <div class="layui-input-inline">
+                            <input type="radio" name="f_is_search" value="1" title="是" {{if eq .data.f_is_search "1"}}checked=""{{end}}>
+                            <input type="radio" name="f_is_search" value="0" title="否" {{if eq .data.f_is_search "0"}}checked=""{{end}}>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">是否必填</label>
+                        <div class="layui-input-inline">
+                            <input type="radio" name="f_isnull" value="1" title="是" {{if eq .data.f_isnull "1"}}checked=""{{end}}>
+                            <input type="radio" name="f_isnull" value="0" title="否" {{if eq .data.f_isnull "0"}}checked=""{{end}}>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">验证类型</label>
+                        <div class="layui-input-inline">
+                                    <select name="f_check">
+                        <option value="" {{if eq .data.f_check  ""}}selected{{end}} >不验证</option>
+                        <option value="email" {{if eq .data.f_check "email"}}selected{{end}}>email验证</option>
+                        <option value="url" {{if eq .data.f_check "url"}}selected{{end}}>网址验证</option>
+                        <option value="date" {{if eq .data.f_check "date"}}selected{{end}}>日期验证</option>
+                        <option value="number" {{if eq .data.f_check "number"}}selected{{end}}>数字验证</option>
+                        <option value="phone" {{if eq .data.f_check "phone"}}selected{{end}}>手机号码验证</option>
+                                        <option {{if eq .data.f_check "identity"}}selected{{end}}>身份证验证</option>
+                                    </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">列表顺序</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="f_list_order" placeholder="请输入"
+                                   value="{{ .data.f_list_order }}" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">列表显示</label>
+                        <div class="layui-input-inline">
+                            <input type="radio" name="f_is_display" value="1" title="是" {{if eq .data.f_is_display "1"}}checked=""{{end}}>
+                            <input type="radio" name="f_is_display" value="0" title="否" {{if eq .data.f_is_display "0"}}checked=""{{end}}>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">编辑顺序</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="f_list_order" placeholder="请输入"
+                                   value="{{ .data.f_ed_order }}" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">编辑显示</label>
+                        <div class="layui-input-inline">
+                            <input type="radio" name="f_ed_display" value="1" title="是" {{if eq .data.f_ed_display "1"}}checked=""{{end}}>
+                            <input type="radio" name="f_ed_display" value="0" title="否" {{if eq .data.f_ed_display "0"}}checked=""{{end}}>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">编辑只读</label>
+                        <div class="layui-input-inline">
+                            <input type="radio" name="f_readonly" value="1" title="是" {{if eq .data.f_readonly "1"}}checked=""{{end}}>
+                            <input type="radio" name="f_readonly" value="0" title="否" {{if eq .data.f_readonly "0"}}checked=""{{end}}>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">新增可见</label>
+                        <div class="layui-input-inline">
+                            <input type="radio" name="f_add_display" value="1" title="是" {{if eq .data.f_add_display "1"}}checked=""{{end}}>
+                            <input type="radio" name="f_add_display" value="0" title="否" {{if eq .data.f_add_display "0"}}checked=""{{end}}>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">单行显示</label>
+                        <div class="layui-input-inline">
+                            <input type="radio" name="f_inline" value="1" title="是" {{if eq .data.f_inline "1"}}checked=""{{end}}>
+                            <input type="radio" name="f_inline" value="0" title="否" {{if eq .data.f_inline "0"}}checked=""{{end}}>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div  class="layui-inline">
+                        <label class="layui-form-label">允许排序</label>
+                        <div class="layui-input-inline">
+                            <input type="radio" name="f_sort" value="1" title="是" {{if eq .data.f_sort "1"}}checked=""{{end}}>
+                            <input type="radio" name="f_sort" value="0" title="否" {{if eq .data.f_sort "0"}}checked=""{{end}}>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" lay-submit="" lay-filter="tj">立即提交</button>
+                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- 表单结束部分  -->
+
+<script type="text/javascript" src="/static/style/layui2/layui.js"></script>
+<script>
+    layui.use(['form', 'upload','layer'], function () {
+        var form = layui.form,
+                $ = layui.$;
+
+
+        function show_check() {
+            if ($('#f_type').val() == "下拉框" || $('#f_type').val()=="多选框") {
+                $('#list_db').show();
+                $('#ck_list').show();
+            } else if ($('#f_type').val() == "单选框") {
+                $('#list_db').hide();
+                $('#ck_list').show();
+            } else {
+                $('#list_db').hide();
+                $('#ck_list').hide();
+            }
+        }
+
+        form.on('select(f_type)', function (data) {
+            //layer.msg(JSON.stringify(data.field));
+            show_check();
+            return false;
+        });
+
+        function init_form() {
+            show_check();
+            $.ajax({
+                url: "/admin/module_getall/",
+                type: 'POST',
+                dataType: 'json',
+                success: function (res) {
+                    for (var i = 0; i < res.data.length; i++) {
+                        if (res.data[i].name == {{.data.list_tb_name }}) {
+                            $('#list_tb_name').append("<option value='" + res.data[i].name + "' selected>" + res.data[i].name + "</option>");
+                        }
+                        else {
+                            $('#list_tb_name').append("<option value='" + res.data[i].name + "'>" + res.data[i].name + "</option>");
+                        }
+                    }
+                    form.render('select');
+
+                }
+            });
+        }
+
+        var is_submit = false;
+        form.on('submit(tj)', function (data) {
+            if (is_submit) {
+                layer.alert('请勿多次提交数据');
+                return false;
+            }
+            is_submit = true;
+            $.ajax({
+                url: "/admin/dbfddict_save/",
+                type: 'POST',
+                data: data.field,
+                dataType: 'json',
+                success: function (res) {
+                    if (res.status == 100) {
+                        layer.alert(res.msg, function(index){
+                            layer.close(index);
+                            var index = parent.layer.getFrameIndex(window.name);
+                            //parent.close();
+                            parent.layui.table.reload('table_id');
+                            parent.layer.close(index);
+                        });
+
+                    } else {
+                        layer.alert(res.msg)
+                        is_submit = false;
+                    }
+
+                }
+            });
+            return false;
+        });
+        init_form();
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>数据编辑</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="/static/style/layui2/css/layui.css" media="all">
+    <link rel="stylesheet" href="/static/style/css/admin.css" media="all">
+<body>
+<div class="layui-fluid">
+            <div class="layui-card">
+                <div class="layui-card-header">生成模板选择</div>
+                <div class="layui-card-body" style="padding: 15px;">
+                    <!-- 表单开始部分  -->
+                    <form class="layui-form" action="" lay-filter="component-form-group">
+                        <input type="hidden" name="id" value="{{.id}}">
+                        <div class="layui-form-item">
+                        <label class="layui-form-label">选择</label>
+                        <div class="layui-input-block">
+                            <select name="lb">
+                            <option value="PCTPL">PC模板</option>
+                            <option value="WAPTPL">移动端模板</option>
+                            </select>
+                        </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button class="layui-btn" lay-submit="" lay-filter="tj">立即提交</button>
+                            </div>
+                        </div>
+                    </form>
+            </div>
+        </div>
+    </div>
+
+<!-- 表单结束部分  -->
+
+<script type="text/javascript" src="/static/style/layui2/layui.js"></script>
+<script>
+    layui.use(['form', 'layer'], function () {
+        var form = layui.form,
+                $ = layui.$;
+
+        form.on('submit(tj)', function(data){
+
+            $.ajax({
+                url: "/admin/module_build/",
+                type: 'POST',
+                data:data.field,
+                dataType: 'json',
+                success: function (res) {
+                    layer.alert(res.msg);
+                }
+            });
+            return false;
+        });
+        init_form();
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>样式</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="web/css/layui.css">
+</head>
+<body  style="background: #f5f5f5">
+
+<div class="layui-card">
+    <div class="layui-card-body">
+        <div class="layui-collapse">
+
+            <div class="layui-colla-item">
+
+                <div class="layui-colla-title layui-form" style="padding-left: 15px">
+                    <input type="checkbox" name="" title=" 系统设置" lay-skin="primary" checked="">
+                    <div class="layui-unselect layui-form-checkbox layui-form-checked" lay-skin="primary">
+                        <span>系统设置</span>
+                        <i class="layui-icon"></i>
+                    </div>
+                </div>
+
+                <div class="layui-card layui-form" >
+
+                    <div class="layui-card-body layui-row layui-col-space10">
+                        <div class="layui-col-md12">
+                            <input type="checkbox" name="" title="选项一" lay-skin="primary" checked="">
+                            <div class="layui-unselect layui-form-checkbox layui-form-checked" lay-skin="primary">
+                                <span>选项一</span>
+                                <i class="layui-icon"></i>
+                            </div>
+                            <input type="checkbox" name="" title="选项二" lay-skin="primary">
+                            <div class="layui-unselect layui-form-checkbox" lay-skin="primary">
+                                <span>选项二</span>
+                                <i class="layui-icon"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<script src="web/js/layui.js"></script>
+<script>
+    layui.use([ 'layer','form'], function(){
+        var layer = layui.layer;
+    });
+</script>
+
+</body>
+</html>
