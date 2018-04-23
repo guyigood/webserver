@@ -1,0 +1,16 @@
+{{define "goods_attr" }}
+<div class="layui-form-item">
+    <label class="layui-form-label">规格类型</label>
+    <div class="layui-input-inline">
+        <select name="spec_type">
+            <option value="0">前选择规格类型</option>
+        {{range  $key,$vo:=.spec }}
+            <option value='{{$vo.id}}'
+                    {{if eq $.data.spec_type $vo.id }}selected{{end}}>{{$vo.name}}</option>
+        {{end}}
+
+        </select>
+    </div>
+</div>
+<div id="goods_spec_table2"></div>
+{{end}}

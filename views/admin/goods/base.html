@@ -58,30 +58,15 @@
     </div>
 </div>
 <div class="layui-form-item">
-    <label class="layui-form-label">商品类型</label>
-    <div class="layui-input-inline">
-        <select name="goods_type" required>
-        {{range  $key,$vo:=.goodstype }}
-            <option value='{{$vo.id}}'
-                    {{if eq $.data.goods_type $vo.id }}selected{{end}}>{{$vo.name}}</option>
-        {{end}}
-
-        </select>
-    </div>
-    <label class="layui-form-label">规格类型</label>
-    <div class="layui-input-inline">
-        <select name="spec_type">
-        {{range  $key,$vo:=.spec }}
-            <option value='{{$vo.id}}'
-                    {{if eq $.data.spec_type $vo.id }}selected{{end}}>{{$vo.name}}</option>
-        {{end}}
-
-        </select>
-    </div>
     <label class="layui-form-label">关键词</label>
     <div class="layui-input-inline">
         <input type="text" name="keywords" placeholder="请输入关键词"
                value="{{.data.keywords}}" id="keywords" required lay-verify="required" lay-fiter="keywords" class="layui-input">
+    </div>
+    <label class="layui-form-label">商品排序</label>
+    <div class="layui-input-inline">
+        <input type="text" name="sort" placeholder="请输入商品排序"
+               value="{{.data.sort}}" id="sort" lay-fiter="sort" class="layui-input">
     </div>
 </div>
 <div class="layui-form-item">
@@ -154,11 +139,7 @@
         <input type="radio" name="exchange_integral" value="0" title="否"
                {{if eq .data.exchange_integral "0"}}checked=""{{end}}>
     </div>
-    <label class="layui-form-label">商品排序</label>
-    <div class="layui-input-inline">
-        <input type="text" name="sort" placeholder="请输入商品排序"
-               value="{{.data.sort}}" id="sort" lay-fiter="sort" class="layui-input">
-    </div>
+
 </div>
 <div class="layui-form-item">
     <div class="layui-inline">

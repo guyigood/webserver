@@ -7,6 +7,7 @@ import (
 	"gylib/dbfun"
 	"encoding/json"
 	"strings"
+	"gylib/common/datatype"
 )
 
 func (this *AdminController) AdminGoods_indexAction() {
@@ -55,19 +56,21 @@ func (this *AdminController) AdminGoods_editAction() {
 	if (this.R.FormValue("id") != "") {
 		edit_flag = "1"
 		data = db.Tbname("goods").Where(fmt.Sprintf("id=%v", this.R.FormValue("id"))).Find()
+		db.Dbinit()
+		cate := db.Tbname("goods_category").Where("id=" + data["cat_id"]).Find()
+		data["cat_id_name"] = cate["name"]
 	} else {
 		data = db.Tbname("goods").Get_new_add()
+		data["cat_id_name"] = ""
 	}
 	this.Data["edit_flag"] = edit_flag
-	db.Dbinit()
-	this.Data["goodscategory"] = db.Tbname("goods_category").Where("").Select()
 	db.Dbinit()
 	this.Data["goodstype"] = db.Tbname("goods_type").Where("").Select()
 	db.Dbinit()
 	this.Data["spec"] = db.Tbname("spec").Where("").Select()
 	this.Data["data"] = data
 	this.Tplname = "views/admin/goods/edit.html"
-	this.MuitplRander("views/admin/goods/base.html")
+	this.MuitplRander("views/admin/goods/base.html", "views/admin/goods/goods_attr.html", "views/admin/goods/goods_img.html", "views/admin/goods/goods_type.html")
 }
 
 /* 保存记录Api */
@@ -120,4 +123,55 @@ func (this *AdminController) AdminGoods_delAction() {
 	}
 	b, _ := json.Marshal(&jsonstr)
 	this.W.Write(b)
+}
+
+func (this *AdminController) AdminGet_goods_specAction() {
+	db := lib.NewQuerybuilder()
+	data := db.Tbname("spec").Where("type_id=" + this.R.FormValue("type_id")).Select()
+	goods_id := this.R.FormValue("goods_id")
+	db.Dbinit()
+	items := db.Query(fmt.Sprintf("select GROUP_CONCAT(`key` SEPARATOR '_') AS items_id from %vspec_goods_price where goods_id=%v ", lib.Db_perfix, goods_id))
+	items_id := strings.Split(items[0]["items_id"], "_")
+	list := make([]map[string]interface{}, 0)
+	for _, v := range data {
+		temp := make(map[string]interface{})
+		temp = datatype.MapString2interface(v)
+		temp["checked"] = false
+		if (this.R.FormValue("goods_id") != "0") {
+			temp["checked"] = common.Check_array_in(v["id"], items_id)
+		}
+		db.Dbinit()
+		temp["data"] = db.Tbname("spec_item").Where("spec_id=" + v["id"]).Select()
+		list = append(list, temp)
+	}
+	jsonstr := new(Json_msg)
+	jsonstr.Status = 100
+	jsonstr.Msg = ""
+	jsonstr.Data = list
+	b, _ := json.Marshal(&jsonstr)
+	this.W.Write(b)
+
+}
+
+func (this *AdminController) AdminGet_goods_spec_itemAction() {
+	db := lib.NewQuerybuilder()
+	specItem := db.Tbname("spec_item").Where("id in (" + this.R.FormValue("spec_arr")).Select()
+	db.Dbinit()
+	//goods_spec := db.Tbname("spec_goods_price").Where("goods_id=" + this.R.FormValue("goods_id")).Select()
+	str1 := "<table class='layui-table' id='spec_input_tab'>"
+	str1 += "<tr>"
+	for _,v:=range specItem{
+		db.Dbinit()
+		spec := db.Tbname("spec").Where("id="+v["spec_id"]).Find()
+		str1 += " <td><b>"+spec["name"]+"</b></td>";
+	}
+	str1 += `<td><b>价格</b></td>
+	<td><b>库存</b></td>
+	<td><b>SKU</b></td>
+	</tr>`
+	for _,v:=range specItem{
+
+	}
+
+
 }

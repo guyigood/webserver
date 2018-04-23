@@ -100,7 +100,7 @@ func (this *AdminController) AdminQxz_saveAction() {
 		_, err = db.Tbname("qxz").Insert(this.Postdata)
 
 	}
-	fmt.Println(db.GetLastSql())
+	//fmt.Println(db.GetLastSql())
 	jsonstr := new(Json_msg)
 	if (err == nil) {
 		jsonstr.Status = 100

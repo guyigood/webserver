@@ -1,0 +1,17 @@
+{{define "goods_type" }}
+<div class="layui-form-item">
+    <label class="layui-form-label">商品类型</label>
+    <div class="layui-input-inline">
+        <select name="goods_type" lay-filter="goods_type" id="goods_type">
+            <option value="0">请选择商品类型</option>
+        {{range  $key,$vo:=.goodstype }}
+            <option value='{{$vo.id}}'
+                    {{if eq $.data.goods_type $vo.id }}selected{{end}}>{{$vo.name}}</option>
+        {{end}}
+
+        </select>
+    </div>
+
+</div>
+<div id="goods_type_list"></div>
+{{end}}

@@ -15,12 +15,27 @@
         <div class="layui-card-body" style="padding: 15px;">
             <!-- 表单开始部分  -->
             <form class="layui-form" action="" lay-filter="edit_form">
-            {{ template "base" .}}
+                <div class="layui-tab">
+                    <ul class="layui-tab-title">
+                        <li class="layui-this">基本信息</li>
+                        <li>规格类型</li>
+                        <li>商品属性</li>
+                        <li>相册</li>
+                    </ul>
+                    <div class="layui-tab-content">
+                        <div class="layui-tab-item layui-show">{{ template "base" .}}</div>
+                        <div class="layui-tab-item">{{template "goods_type" .}}</div>
+                        <div class="layui-tab-item">{{template "goods_attr" .}}</div>
+                        <div class="layui-tab-item">{{template "img" .}}</div>
 
-                <div class="layui-form-item">
-                    <div class="layui-input-block">
-                        <button class="layui-btn" lay-submit="" lay-filter="tj">立即提交</button>
-                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
+
+
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn" lay-submit="" lay-filter="tj">立即提交</button>
+                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
                     </div>
                 </div>
             </form>
@@ -32,11 +47,12 @@
 
 <script type="text/javascript" src="/static/style/layui2/layui.js"></script>
 <script type="text/javascript" src="/static/ueditor/1.4.3/ueditor.config.js"></script>
-<script type="text/javascript" src="/static/ueditor/1.4.3/ueditor.all.min.js"> </script>
+<script type="text/javascript" src="/static/ueditor/1.4.3/ueditor.all.min.js"></script>
 <script>
-    layui.use(['form', 'upload', 'laydate',  'layer'], function () {
+    layui.use(['form', 'upload', 'laydate', 'element', 'layer'], function () {
         var form = layui.form,
                 upload = layui.upload,
+                element = layui.element,
                 laydate = layui.laydate,
                 $ = layui.$;
 
@@ -47,24 +63,19 @@
             elem: '#original_img_btn'
             , field: "uploadImage"
             , url: '/admin/lay_upload_file/'
-            , before: function (obj) {
-//预读本地文件示例，不支持ie8
+            , before: function (obj) {//预读本地文件示例，不支持ie8
                 obj.preview(function (index, file, result) {
                     $('#original_img_img').attr('src', result); //图片链接（base64）
                 });
             }
-            , done: function (res) {
-//如果上传失败
+            , done: function (res) {//如果上传失败
                 if (res.code > 0) {
                     return layer.msg('上传失败');
                 } else {
                     $('#original_img_hd').val(res.data.src);
-                }
-
-//上传成功
+                }//上传成功
             }
-            , error: function () {
-//演示失败状态，并实现重传
+            , error: function () {//演示失败状态，并实现重传
                 var demoText = $('#original_img_demoText');
                 demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-mini demo-reload">重试</a>');
                 demoText.find('.demo-reload').on('click', function () {
@@ -73,8 +84,13 @@
             }
         });
 
+        var goods_id=0;
+        if($('#id').length>0)
+            goods_id=$('#id').val();
+
 
         function init_form() {
+            goods_type();
         }
 
         var is_submit = false;
@@ -108,14 +124,136 @@
             });
             return false;
         });
-        init_form();
 
+        function ajaxinputspec() {
+            var spec_arr="";
+            $("input:checkbox[name='spec_id']:checked").each(function() { // 遍历name=standard的多选框
+                if(spec_arr==""){
+                    spec_arr=res.data[i].id;
+                }else{
+                    spec_arr+=","+res.data[i].id;
+                }
+            });
+            ajaxGetSpecInput2(spec_arr);
+
+        }
+
+        /**
+         * 根据用户选择的不同规格选项
+         * 返回 不同的输入框选项
+         */
+        function ajaxGetSpecInput2(spec_arr)
+        {
+
+            var goods_id = $("#id").val();
+            $.ajax({
+                type:'POST',
+                data:{'spec_arr':spec_arr,goods_id:goods_id},
+                url:"/admin/get_goods_spec_item/",
+                success:function(data){
+                    $("#goods_type_list").html('')
+                    $("#goods_type_list").append(data);
+                    hbdyg();  // 合并单元格
+                }
+            });
+        }
+
+        // 合并单元格
+        function hbdyg() {
+            var tab = document.getElementById("spec_input_tab"); //要合并的tableID
+            var maxCol = 2, val, count, start;  //maxCol：合并单元格作用到多少列
+            if (tab != null) {
+                for (var col = maxCol - 1; col >= 0; col--) {
+                    count = 1;
+                    val = "";
+                    for (var i = 0; i < tab.rows.length; i++) {
+                        if (val == tab.rows[i].cells[col].innerHTML) {
+                            count++;
+                        } else {
+                            if (count > 1) { //合并
+                                start = i - count;
+                                tab.rows[start].cells[col].rowSpan = count;
+                                for (var j = start + 1; j < i; j++) {
+                                    tab.rows[j].cells[col].style.display = "none";
+                                }
+                                count = 1;
+                            }
+                            val = tab.rows[i].cells[col].innerHTML;
+                        }
+                    }
+                    if (count > 1) { //合并，最后几行相同的情况下
+                        start = i - count;
+                        tab.rows[start].cells[col].rowSpan = count;
+                        for (var j = start + 1; j < i; j++) {
+                            tab.rows[j].cells[col].style.display = "none";
+                        }
+                    }
+                }
+            }
+        }
+
+        function set_type_items(res) {
+            var str1 = " <div class=\"layui-form-item\">\n" +
+                    "                    <label class=\"layui-form-label\">" + res.name + "</label>\n" +
+                    "                    <div class=\"layui-input-block\">\n";
+             //console.log(JSON.stringify(res.data))
+            for (var i = 0; i < res.data.length; i++) {
+                str1 += "<input type=\"checkbox\" lay-filter='spec_items' value='"+res.data[i].id+"' name='spec_id' title='"+res.data[i].item+"'";
+                if (res.data[i].checked) {
+                    str1 += "checked ";
+                }
+                str1 += "\"  >";
+            }
+            str1 += "                    </div>\n" +
+                    "                    </div>";
+            return str1;
+        }
+
+        function goods_type() {
+            spec_arr="";
+            $.ajax({
+                url: "/admin/get_goods_spec/",
+                type: 'POST',
+                data: {type_id: $('#goods_type').val(),goods_id:goods_id},
+                dataType: 'json',
+                success: function (res) {
+                    if (res.status == 100) {
+                        var str1 = "";
+                        for (var i = 0; i < res.data.length; i++) {
+                            str1 += set_type_items(res.data[i]);
+                        }
+                        //$('#goods_type_list').html("");
+                        $('#goods_type_list').html(str1);
+                        form.render("checkbox");
+                    }
+
+                }
+            });
+
+        }
+
+        form.on("select(goods_type)", function (data) {
+            goods_type();
+            return false;
+        });
+        form.on("checkbox(spec_items)", function (data) {
+            ajaxinputspec();
+            // if(data.elem.checked){
+            //     alert('checked')
+            // }else{
+            //     alert('no');
+            // }
+            return false;
+        });
+
+        init_form();
     });
+
     function showpop() {
         layer.open({
             type: 2 //此处以iframe举例
             , title: '分类选择'
-            ,area: ['450px', '350px']
+            , area: ['450px', '350px']
             , maxmin: true
             , content: '/admin/common_pop/?name=goods'
         });
