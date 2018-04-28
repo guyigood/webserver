@@ -20,48 +20,55 @@
             {{end}}
                 <div class="layui-form-item">
                     <div class="layui-inline">
-                    <label class="layui-form-label">字段名称</label>
-                    <div class="layui-input-inline">
-                        <input type="text" name="name" required lay-verify="required" placeholder="名称"
-                               value="{{ .data.name }}" autocomplete="off" class="layui-input">
+                        <label class="layui-form-label">字段名称</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="name" required lay-verify="required" placeholder="名称"
+                                   value="{{ .data.name }}" autocomplete="off" class="layui-input">
+                        </div>
                     </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">中文名称</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="cn_name" required lay-verify="required" placeholder="请输入名称"
+                                   value="{{ .data.cn_name }}" autocomplete="off" class="layui-input">
+                        </div>
                     </div>
-                <div class="layui-inline">
-                    <label class="layui-form-label">中文名称</label>
-                    <div class="layui-input-inline">
-                        <input type="text" name="cn_name" required lay-verify="required" placeholder="请输入名称"
-                               value="{{ .data.cn_name }}" autocomplete="off" class="layui-input">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">字段类型</label>
+                        <div class="layui-input-inline">
+                            <select name="f_type" id="f_type" lay-filter="f_type">
+                                <option {{if eq .data.f_type "单行文本"}} selected {{end}}>单行文本</option>
+                                <option {{if eq .data.f_type "密码"}} selected {{end}}>密码</option>
+                                <option {{if eq .data.f_type "下拉框"}} selected {{end}}>下拉框</option>
+                                <option {{if eq .data.f_type "单选框"}} selected {{end}}>单选框</option>
+                                <option {{if eq .data.f_type "多选框"}} selected {{end}}>多选框</option>
+                                <option {{if eq .data.f_type  "日期时间"}} selected {{end}}>日期时间</option>
+                                <option {{if eq .data.f_type "多行文本"}} selected {{end}}>多行文本</option>
+                                <option {{if eq .data.f_type  "富文本"}} selected {{end}}>富文本</option>
+                                <option {{if eq .data.f_type  "单图片"}} selected {{end}}>单图片</option>
+                                <option {{if eq .data.f_type  "多图片"}} selected {{end}}>多图片</option>
+                            </select>
+                        </div>
                     </div>
-                </div>
-                <div class="layui-inline">
-                    <label class="layui-form-label">字段类型</label>
-                    <div class="layui-input-inline">
-                        <select name="f_type" id="f_type" lay-filter="f_type">
-                            <option {{if eq .data.f_type "单行文本"}} selected {{end}}>单行文本</option>
-                            <option {{if eq .data.f_type "密码"}} selected {{end}}>密码</option>
-                            <option {{if eq .data.f_type "下拉框"}} selected {{end}}>下拉框</option>
-                            <option {{if eq .data.f_type "单选框"}} selected {{end}}>单选框</option>
-                            <option {{if eq .data.f_type "多选框"}} selected {{end}}>多选框</option>
-                            <option {{if eq .data.f_type  "日期时间"}} selected {{end}}>日期时间</option>
-                            <option {{if eq .data.f_type "多行文本"}} selected {{end}}>多行文本</option>
-                            <option {{if eq .data.f_type  "富文本"}} selected {{end}}>富文本</option>
-                            <option {{if eq .data.f_type  "单图片"}} selected {{end}}>单图片</option>
-                            <option {{if eq .data.f_type  "多图片"}} selected {{end}}>多图片</option>
-                        </select>
-                    </div>
-                </div>
                 </div>
                 <div class="layui-form-item">
-                    <div class="layui-inline"  style="display:none" id="list_db" >
+                    <div class="layui-inline" style="display:none" id="list_db">
                         <label class="layui-form-label">数据源选择</label>
                         <div class="layui-input-inline">
                             <select name="list_tb_name" id="list_tb_name" lay-search lay-filter="list_tb_name">
                                 <option value="0">无需数据源</option>
                             </select>
                         </div>
+
+                        <label class="layui-form-label">查询条件</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="list_where" placeholder="查询条件"
+                                   value="{{ .data.list_where }}" autocomplete="off" class="layui-input">
+                        </div>
+
                     </div>
                     <div id="ck_list" style="display:none">
-                    <div class="layui-inline">
+                        <div class="layui-inline">
                             <label class="layui-form-label">显示字段</label>
                             <div class="layui-input-inline">
                                 <input type="text" name="list_display" placeholder="名称"
@@ -78,33 +85,76 @@
                     </div>
                 </div>
 
+                {{/*<div class="layui-collapse" lay-filter="collapse">*/}}
+                    {{/*<div class="layui-colla-item">*/}}
+                        {{/*<h2 class="layui-colla-title">列表显示格式</h2>*/}}
+                        {{/*<div class="layui-colla-content layui-show">*/}}
+                            {{/*<div class="layui-form-item">*/}}
+                                {{/*<div class="layui-inline">*/}}
+                                    {{/*<label class="layui-form-label">数据源选择</label>*/}}
+                                    {{/*<div class="layui-input-inline">*/}}
+                                        {{/*<select name="list_tb_name" id="list_tb_name" lay-search*/}}
+                                                {{/*lay-filter="list_tb_name">*/}}
+                                            {{/*<option value="0">无需数据源</option>*/}}
+                                        {{/*</select>*/}}
+                                    {{/*</div>*/}}
+
+                                    {{/*<label class="layui-form-label">查询条件</label>*/}}
+                                    {{/*<div class="layui-input-inline">*/}}
+                                        {{/*<input type="text" name="list_where" placeholder="查询条件"*/}}
+                                               {{/*value="{{ .data.list_where }}" autocomplete="off" class="layui-input">*/}}
+                                    {{/*</div>*/}}
+
+                                {{/*</div>*/}}
+                            {{/*</div>*/}}
+                                {{/*<div class="layui-form-item">*/}}
+                                        {{/*<label class="layui-form-label">显示字段</label>*/}}
+                                        {{/*<div class="layui-input-inline">*/}}
+                                            {{/*<input type="text" name="list_display" placeholder="名称"*/}}
+                                                   {{/*value="{{ .data.list_display }}" autocomplete="off"*/}}
+                                                   {{/*class="layui-input">*/}}
+                                        {{/*</div>*/}}
+                                        {{/*<label class="layui-form-label">关联字段</label>*/}}
+                                        {{/*<div class="layui-input-inline">*/}}
+                                            {{/*<input type="text" name="list_val" placeholder="请输入名称"*/}}
+                                                   {{/*value="{{ .data.list_val }}" autocomplete="off" class="layui-input">*/}}
+                                        {{/*</div>*/}}
+                                    {{/*</div>*/}}
+                                {{/*</div>*/}}
+                            {{/*</div>*/}}
+                        {{/*</div>*/}}
+
                 <div class="layui-form-item">
                     <div class="layui-inline">
                         <label class="layui-form-label">是否搜索</label>
                         <div class="layui-input-inline">
-                            <input type="radio" name="f_is_search" value="1" title="是" {{if eq .data.f_is_search "1"}}checked=""{{end}}>
-                            <input type="radio" name="f_is_search" value="0" title="否" {{if eq .data.f_is_search "0"}}checked=""{{end}}>
+                            <input type="radio" name="f_is_search" value="1" title="是"
+                                   {{if eq .data.f_is_search "1"}}checked=""{{end}}>
+                            <input type="radio" name="f_is_search" value="0" title="否"
+                                   {{if eq .data.f_is_search "0"}}checked=""{{end}}>
                         </div>
                     </div>
                     <div class="layui-inline">
                         <label class="layui-form-label">是否必填</label>
                         <div class="layui-input-inline">
-                            <input type="radio" name="f_isnull" value="1" title="是" {{if eq .data.f_isnull "1"}}checked=""{{end}}>
-                            <input type="radio" name="f_isnull" value="0" title="否" {{if eq .data.f_isnull "0"}}checked=""{{end}}>
+                            <input type="radio" name="f_isnull" value="1" title="是"
+                                   {{if eq .data.f_isnull "1"}}checked=""{{end}}>
+                            <input type="radio" name="f_isnull" value="0" title="否"
+                                   {{if eq .data.f_isnull "0"}}checked=""{{end}}>
                         </div>
                     </div>
                     <div class="layui-inline">
                         <label class="layui-form-label">验证类型</label>
                         <div class="layui-input-inline">
-                                    <select name="f_check">
-                        <option value="" {{if eq .data.f_check  ""}}selected{{end}} >不验证</option>
-                        <option value="email" {{if eq .data.f_check "email"}}selected{{end}}>email验证</option>
-                        <option value="url" {{if eq .data.f_check "url"}}selected{{end}}>网址验证</option>
-                        <option value="date" {{if eq .data.f_check "date"}}selected{{end}}>日期验证</option>
-                        <option value="number" {{if eq .data.f_check "number"}}selected{{end}}>数字验证</option>
-                        <option value="phone" {{if eq .data.f_check "phone"}}selected{{end}}>手机号码验证</option>
-                                        <option {{if eq .data.f_check "identity"}}selected{{end}}>身份证验证</option>
-                                    </select>
+                            <select name="f_check">
+                                <option value="" {{if eq .data.f_check  ""}}selected{{end}} >不验证</option>
+                                <option value="email" {{if eq .data.f_check "email"}}selected{{end}}>email验证</option>
+                                <option value="url" {{if eq .data.f_check "url"}}selected{{end}}>网址验证</option>
+                                <option value="date" {{if eq .data.f_check "date"}}selected{{end}}>日期验证</option>
+                                <option value="number" {{if eq .data.f_check "number"}}selected{{end}}>数字验证</option>
+                                <option value="phone" {{if eq .data.f_check "phone"}}selected{{end}}>手机号码验证</option>
+                                <option {{if eq .data.f_check "identity"}}selected{{end}}>身份证验证</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -120,8 +170,10 @@
                     <div class="layui-inline">
                         <label class="layui-form-label">列表显示</label>
                         <div class="layui-input-inline">
-                            <input type="radio" name="f_is_display" value="1" title="是" {{if eq .data.f_is_display "1"}}checked=""{{end}}>
-                            <input type="radio" name="f_is_display" value="0" title="否" {{if eq .data.f_is_display "0"}}checked=""{{end}}>
+                            <input type="radio" name="f_is_display" value="1" title="是"
+                                   {{if eq .data.f_is_display "1"}}checked=""{{end}}>
+                            <input type="radio" name="f_is_display" value="0" title="否"
+                                   {{if eq .data.f_is_display "0"}}checked=""{{end}}>
                         </div>
                     </div>
                 </div>
@@ -137,8 +189,10 @@
                     <div class="layui-inline">
                         <label class="layui-form-label">编辑显示</label>
                         <div class="layui-input-inline">
-                            <input type="radio" name="f_ed_display" value="1" title="是" {{if eq .data.f_ed_display "1"}}checked=""{{end}}>
-                            <input type="radio" name="f_ed_display" value="0" title="否" {{if eq .data.f_ed_display "0"}}checked=""{{end}}>
+                            <input type="radio" name="f_ed_display" value="1" title="是"
+                                   {{if eq .data.f_ed_display "1"}}checked=""{{end}}>
+                            <input type="radio" name="f_ed_display" value="0" title="否"
+                                   {{if eq .data.f_ed_display "0"}}checked=""{{end}}>
                         </div>
                     </div>
                 </div>
@@ -147,32 +201,49 @@
                     <div class="layui-inline">
                         <label class="layui-form-label">编辑只读</label>
                         <div class="layui-input-inline">
-                            <input type="radio" name="f_readonly" value="1" title="是" {{if eq .data.f_readonly "1"}}checked=""{{end}}>
-                            <input type="radio" name="f_readonly" value="0" title="否" {{if eq .data.f_readonly "0"}}checked=""{{end}}>
+                            <input type="radio" name="f_readonly" value="1" title="是"
+                                   {{if eq .data.f_readonly "1"}}checked=""{{end}}>
+                            <input type="radio" name="f_readonly" value="0" title="否"
+                                   {{if eq .data.f_readonly "0"}}checked=""{{end}}>
                         </div>
                     </div>
                     <div class="layui-inline">
                         <label class="layui-form-label">新增可见</label>
                         <div class="layui-input-inline">
-                            <input type="radio" name="f_add_display" value="1" title="是" {{if eq .data.f_add_display "1"}}checked=""{{end}}>
-                            <input type="radio" name="f_add_display" value="0" title="否" {{if eq .data.f_add_display "0"}}checked=""{{end}}>
+                            <input type="radio" name="f_add_display" value="1" title="是"
+                                   {{if eq .data.f_add_display "1"}}checked=""{{end}}>
+                            <input type="radio" name="f_add_display" value="0" title="否"
+                                   {{if eq .data.f_add_display "0"}}checked=""{{end}}>
                         </div>
                     </div>
                     <div class="layui-inline">
                         <label class="layui-form-label">单行显示</label>
                         <div class="layui-input-inline">
-                            <input type="radio" name="f_inline" value="1" title="是" {{if eq .data.f_inline "1"}}checked=""{{end}}>
-                            <input type="radio" name="f_inline" value="0" title="否" {{if eq .data.f_inline "0"}}checked=""{{end}}>
+                            <input type="radio" name="f_inline" value="1" title="是"
+                                   {{if eq .data.f_inline "1"}}checked=""{{end}}>
+                            <input type="radio" name="f_inline" value="0" title="否"
+                                   {{if eq .data.f_inline "0"}}checked=""{{end}}>
                         </div>
                     </div>
                 </div>
 
                 <div class="layui-form-item">
-                    <div  class="layui-inline">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">是否主键</label>
+                        <div class="layui-input-inline">
+                            <input type="radio" name="is_key" value="1" title="是"
+                                   {{if eq .data.is_key "1"}}checked=""{{end}}>
+                            <input type="radio" name="is_key" value="0" title="否"
+                                   {{if eq .data.is_key "0"}}checked=""{{end}}>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
                         <label class="layui-form-label">允许排序</label>
                         <div class="layui-input-inline">
-                            <input type="radio" name="f_sort" value="1" title="是" {{if eq .data.f_sort "1"}}checked=""{{end}}>
-                            <input type="radio" name="f_sort" value="0" title="否" {{if eq .data.f_sort "0"}}checked=""{{end}}>
+                            <input type="radio" name="f_sort" value="1" title="是"
+                                   {{if eq .data.f_sort "1"}}checked=""{{end}}>
+                            <input type="radio" name="f_sort" value="0" title="否"
+                                   {{if eq .data.f_sort "0"}}checked=""{{end}}>
                         </div>
                     </div>
                 </div>
@@ -192,13 +263,14 @@
 
 <script type="text/javascript" src="/static/style/layui2/layui.js"></script>
 <script>
-    layui.use(['form', 'upload','layer'], function () {
+    layui.use(['form', 'upload', 'element','layer'], function () {
         var form = layui.form,
+                element=layui.element,
                 $ = layui.$;
 
 
         function show_check() {
-            if ($('#f_type').val() == "下拉框" || $('#f_type').val()=="多选框") {
+            if ($('#f_type').val() == "下拉框" || $('#f_type').val() == "多选框") {
                 $('#list_db').show();
                 $('#ck_list').show();
             } else if ($('#f_type').val() == "单选框") {
@@ -251,7 +323,7 @@
                 dataType: 'json',
                 success: function (res) {
                     if (res.status == 100) {
-                        layer.alert(res.msg, function(index){
+                        layer.alert(res.msg, function (index) {
                             layer.close(index);
                             var index = parent.layer.getFrameIndex(window.name);
                             //parent.close();

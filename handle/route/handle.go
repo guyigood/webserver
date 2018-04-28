@@ -43,7 +43,7 @@ func init() {
 	client.Do("SET", "appkey", data["appkey"])
 	/*初始化路由表*/
 	db := lib.NewQuerybuilder()
-	host_data := db.Query("select name from sl_host group by name")
+	host_data := db.Query("select name from "+lib.Db_perfix+"host group by name")
 	for _, v := range host_data {
 		db.Dbinit()
 		host_tmp := db.Tbname("host").Where(fmt.Sprintf("name='%v'", v["name"])).Select()
@@ -195,10 +195,14 @@ func (this *Controller) url_route(urlpath, get_url string) {
 		return;
 	}
 	result := ""
-	url_add += "/" + data["url"] + "/"
+	url_add += "/" + data["url"]
 	//fmt.Println(url_add)
 	if (get_url != "") {
-		url_add += "?" + get_url
+		if(strings.Contains(url_add,"?")){
+			url_add += "&" + get_url
+		}else {
+			url_add += "?" + get_url
+		}
 	}
 	if (data["method"] == "MUIFILE") {
 		this.Multi_upload(data["upload_file"])

@@ -42,17 +42,19 @@
 <input type="hidden" name="forid" id="forid" value="0">
 <script type="text/javascript" src="/static/style/layui2/layui.js" charset="utf-8"></script>
 <script>
+    var tree=null;
     layui.use(['table', 'element', 'tree'], function () {
         var table = layui.table
+                , l_tree=layui.tree
                 , $ = layui.$
-                ,l_tree=layui.tree
                 , element = layui.element;
+
 
         table.on('checkbox(list_ft)', function (obj) {
         });
 
 
-
+          tree=function() {
              $.ajax({
                  url: "/admin/depart_tree/",
                  type: 'POST',
@@ -79,8 +81,9 @@
                      });
                  }
              });
+          };
 
-
+          tree();
         //第一个实例
         table.render({
             elem: '#list',
@@ -212,6 +215,9 @@
 
     });
 
+    function reload_tree(){
+        tree();
+    }
 
 </script>
 </body>

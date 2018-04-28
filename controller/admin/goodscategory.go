@@ -130,6 +130,8 @@ func(this *AdminController)build_cate_menu(p_id string)[]map[string]interface{}{
 	}
 
 }
+
+
 /*递归查询上级*/
 func (this *AdminController) AdminGoodscategory_getpathAction(id string) (string, int) {
 	db := lib.NewQuerybuilder()

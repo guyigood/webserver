@@ -14,6 +14,7 @@ if(res.code > 0){
     return layer.msg('上传失败');
 }else{
         $('#{{name}}_hd').val(res.data.src);
+        $('#{{name}}_img').attr('layer-src', result); //图片链接（base64）
         }
 
 //上传成功
@@ -26,4 +27,9 @@ demoText.find('.demo-reload').on('click', function(){
 uploadInst.upload();
 });
 }
+});
+
+layer.photos({
+photos: '#layer-photos-demo'
+,anim: 5 //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
 });

@@ -129,9 +129,9 @@
             var spec_arr="";
             $("input:checkbox[name='spec_id']:checked").each(function() { // 遍历name=standard的多选框
                 if(spec_arr==""){
-                    spec_arr=res.data[i].id;
+                    spec_arr=$(this).val();
                 }else{
-                    spec_arr+=","+res.data[i].id;
+                    spec_arr+=","+$(this).val();
                 }
             });
             ajaxGetSpecInput2(spec_arr);
@@ -151,8 +151,9 @@
                 data:{'spec_arr':spec_arr,goods_id:goods_id},
                 url:"/admin/get_goods_spec_item/",
                 success:function(data){
-                    $("#goods_type_list").html('')
-                    $("#goods_type_list").append(data);
+                    $("#table_list").html('')
+                    $("#table_list").append(data);
+                    console.log(data);
                     hbdyg();  // 合并单元格
                 }
             });
@@ -238,6 +239,7 @@
         });
         form.on("checkbox(spec_items)", function (data) {
             ajaxinputspec();
+
             // if(data.elem.checked){
             //     alert('checked')
             // }else{

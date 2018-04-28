@@ -189,9 +189,16 @@ func (this *Controller) url_route(urlpath, get_url string) {
 		return;
 	}
 	result := ""
-	url_add += "/" + data["url"] + "/"
+	url_add += "/" + data["url"]
 	if (get_url != "") {
-		url_add += "?" + get_url
+		if(strings.Contains(url_add,"?")){
+			url_add += "&" + get_url
+		}else {
+			url_add += "?" + get_url
+		}
+	}
+	if(!strings.Contains(url_add,"?")){
+		url_add+="/"
 	}
 	if (data["method"] == "MUIFILE") {
 		this.Multi_upload()

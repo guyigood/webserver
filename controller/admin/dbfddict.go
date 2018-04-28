@@ -25,12 +25,20 @@ func (this *AdminController) AdminDbfddict_indexAction() {
 			db.Dbinit()
 			s_data := make(map[string]interface{})
 			if (v["Key"] == "PRI" && v["Extra"] == "auto_increment") {
+				s_data["is_key"]=1
 				s_data["f_is_display"] = 0
 				s_data["f_ed_display"] = 0
 				s_data["f_ed_display"] = 0
 				s_data["f_add_display"] = 0
 				s_data["f_readonly"] = 1
-			} else {
+			}else if(v["Key"]=="PRI"){
+				s_data["is_key"]=1
+				s_data["f_is_display"] = 0
+				s_data["f_ed_display"] = 0
+				s_data["f_ed_display"] = 0
+				s_data["f_add_display"] = 0
+				s_data["f_readonly"] = 1
+			} else{
 				s_data["f_is_display"] = 1
 				s_data["f_ed_display"] = 1
 				s_data["f_ed_display"] = 1

@@ -45,8 +45,16 @@ func (this *AdminController) Get_dept_tree(p_id int) ([]map[string]interface{}) 
 			tmp_list := this.Get_dept_tree(id)
 			if (len(tmp_list) > 0) {
 				tmp["children"] = tmp_list
+				list = append(list, tmp)
+			}else {
+				if(this.R.FormValue("name")!=""){
+					if(strings.Contains(v["name"],this.R.FormValue("name"))){
+						list = append(list, tmp)
+					}
+				}else {
+					list = append(list, tmp)
+				}
 			}
-			list = append(list, tmp)
 		}
 		return list
 	} else {

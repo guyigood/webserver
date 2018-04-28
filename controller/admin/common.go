@@ -12,6 +12,7 @@ import (
 	"os"
 	"io"
 	"regexp"
+	"websever/public/module"
 )
 
 func get_ueditor_config() (string) {
@@ -72,6 +73,26 @@ func (this *AdminController) AdminCommon_popAction() {
 		`
 		close_js = `parent.layui.$('#cat_id').val($('#parent_id').val());
          parent.layui.$('#cat_id_name').val($('#parent_id_name').val());`
+	case "china":
+		title = "城市选择"
+		url_list = "/admin/common_get_china/"
+		input_box = `<input type='hidden' id='province'>
+           <input type='hidden' id='full_name'>
+		  <input type='hidden' id='area'>
+          <input type='hidden' id='city'>`
+		set_js = `
+         var node_id=node.id;
+         var node_name=node.full_name;
+         $('#province').val(node.province);
+         $('#city').val(node.city);
+         $('#area').val(node.area);
+         $('#full_name').val(node.full_name);
+         $('#label').text('当前选中:'+node_name);
+		`
+		close_js = `parent.layui.$('#province').val($('#province').val());
+					parent.layui.$('#city').val($('#city').val());
+					parent.layui.$('#area').val($('#area').val());
+         parent.layui.$('#full_name').val($('#full_name').val());`
 	}
 
 	this.Data["title"] = title
@@ -83,6 +104,61 @@ func (this *AdminController) AdminCommon_popAction() {
 	this.Tplname = "views/admin/common/pop.html"
 	this.Rander()
 }
+
+func (this *AdminController) AdminCommon_get_chinaAction() {
+	//redis_ct := redispack.Get_redis_pool()
+	//client := redis_ct.Get()
+	//hasok, _ := client.Do("GET", "china")
+	data := make([]map[string]interface{}, 0)
+	china := module.NewOrgStruct()
+	data = china.Get_china_data(this.R.FormValue("name"))
+	//fmt.Println(data)
+	/*fmt.Println(hasok)
+	if (hasok ==nil) {
+		china := module.NewOrgStruct()
+		data = china.Get_china_data( this.R.FormValue("name"))
+		fmt.Println("data", data)
+		tmp, _ := json.Marshal(&data)
+		client.Do("SETEX", "china", 3600, tmp)
+	} else {
+		if(hasok!=nil) {
+			json.Unmarshal(hasok.([]byte), &data)
+		}
+
+	}*/
+	raw, _ := json.Marshal(&data)
+	this.W.Write(raw)
+}
+
+func (this *AdminController) AdminCommon_get_db_listAction(){
+
+}
+
+func (this *AdminController) AdminCommon_get_china_treeAction() {
+	//redis_ct := redispack.Get_redis_pool()
+	//client := redis_ct.Get()
+	//hasok, _ := client.Do("GET", "china")
+	data := make([]map[string]interface{}, 0)
+	china := module.NewOrgStruct()
+	data = china.Get_china_tree()
+	//fmt.Println(data)
+	/*fmt.Println(hasok)
+	if (hasok ==nil) {
+		china := module.NewOrgStruct()
+		data = china.Get_china_data( this.R.FormValue("name"))
+		fmt.Println("data", data)
+		tmp, _ := json.Marshal(&data)
+		client.Do("SETEX", "china", 3600, tmp)
+	} else {
+		if(hasok!=nil) {
+			json.Unmarshal(hasok.([]byte), &data)
+		}
+
+	}*/
+	raw, _ := json.Marshal(&data)
+	this.W.Write(raw)
+}
+
 
 func (this *AdminController) AdminCommon_uploadAction() {
 	op := this.R.FormValue("action")

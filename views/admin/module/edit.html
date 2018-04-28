@@ -20,19 +20,30 @@
                     {{end}}
                         <div class="layui-form-item">
                         <label class="layui-form-label">数据表名称</label>
-                        <div class="layui-input-block">
+                        <div class="layui-input-inline">
                             <input type="text" name="name" required lay-verify="required" placeholder="名称"
                                    value="{{ .data.name }}" autocomplete="off" class="layui-input">
                         </div>
-                        </div>
-
-                    <div class="layui-form-item">
                         <label class="layui-form-label">中文名称</label>
-                        <div class="layui-input-block">
+                        <div class="layui-input-inline">
                             <input type="text" name="cn_name" required lay-verify="required" placeholder="请输入名称"
                                    value="{{ .data.cn_name }}" autocomplete="off" class="layui-input">
                         </div>
                     </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">默认排序字段</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="order_str" required lay-verify="required" placeholder="请输入排序规则"
+                                       value="{{ .data.order_str }}" autocomplete="off" class="layui-input">
+                            </div>
+                            <label class="layui-form-label">默认排序规则</label>
+                            <div class="layui-input-inline">
+                                <select name="order_type">
+                                    <option value="desc" {{if eq .data.order_type  "desc"}}selected{{end}} >降序</option>
+                                    <option value="asc" {{if eq .data.order_type "asc"}}selected{{end}}>升序</option>
+                                </select>
+                            </div>
+                        </div>
                         <div class="layui-form-item">
                             <label class="layui-form-label">控制器名称</label>
                             <div class="layui-input-block">

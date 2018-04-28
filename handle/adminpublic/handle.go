@@ -1,11 +1,11 @@
-package handle
+package adminpublic
 
 import (
 	"net/http"
 	"strings"
 	"encoding/json"
 	"reflect"
-	"websever/controller/admin"
+	"websever/controller/dbcurd"
 )
 
 func AdminHandler(w http.ResponseWriter, r *http.Request) {
@@ -17,31 +17,35 @@ func AdminHandler(w http.ResponseWriter, r *http.Request) {
 
 func switch_action(parts []string, w http.ResponseWriter, r *http.Request) {
 	var method_name string
-	var action string
-
+	var tbname, action string
+	//fmt.Println(parts,len(parts))
 	switch len(parts) {
 	case 0:
-		method_name = "Admin"
-		action = "AdminIndexAction"
+		error_return(w, "地址错误")
+		return
 	case 1:
+		error_return(w, "地址和参数错误")
+		return
+	case 3:
+		tbname = parts[1]
 		method_name = strings.Title(parts[0])
-		action = method_name + "IndexAction"
+		//for _, val := range parts {
+		//	if (action == "") {
+		//		action = strings.Title(val)
+		//	} else {
+		//		action += strings.Title(val)
+		//	}
+		//}
+		action = strings.Title(parts[2]) + "Action"
 	default:
-		method_name = strings.Title(parts[0])
-		for _, val := range parts {
-			if (action == "") {
-				action = strings.Title(val)
-			} else {
-				action += strings.Title(val)
-			}
-		}
-		action += "Action"
+		error_return(w, "路由错误")
+		return
 		//action = strings.Title(parts[0]) + strings.Title(parts[1]) + "Action"
 	}
 
 	switch strings.Title(method_name) {
-	case "Admin": //登录接口--需要检查key
-		controller_mothod, flag := admin.NewAdminController(w, r, action)
+	case "Adminmgr": //登录接口--需要检查key
+		controller_mothod, flag := dbcurd.NewDbcurdController(w, r, tbname)
 		if (!flag) {
 			http.Redirect(w, r, "/admin/login", 302)
 			return
@@ -58,13 +62,6 @@ func switch_action(parts []string, w http.ResponseWriter, r *http.Request) {
 		//responseValue := reflect.ValueOf(w)
 		//method.Call([]reflect.Value{responseValue, requestValue})
 		method.Call([]reflect.Value{})
-
-	case "Api": //form接口--需要检查token
-
-	case "Sdk": //json接口解析--需要检查token
-
-	case "Public": //json接口解析--通用接口，无需鉴权
-
 	default:
 		error_return(w, "路由错误")
 		return

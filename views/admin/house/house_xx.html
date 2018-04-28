@@ -1,0 +1,201 @@
+{{define "house_xx"}}
+<div class="layui-form-item">
+    <label class="layui-form-label">网点ID</label>
+    <div class="layui-input-inline">
+        <input type="text" name="w_id" placeholder="请输入网点ID"
+               value="{{.data.w_id}}" id="w_id" lay-fiter="w_id" class="layui-input">
+    </div>
+    <label class="layui-form-label">城市</label>
+    <div class="layui-input-inline">
+        <input type="text" name="city" placeholder="请输入城市"
+               value="{{.data.city}}" id="city" lay-fiter="city" class="layui-input">
+    </div>
+    <label class="layui-form-label">小区名称</label>
+    <div class="layui-input-inline">
+        <input type="text" name="cell_name" placeholder="请输入小区名称"
+               value="{{.data.cell_name}}" id="cell_name" lay-fiter="cell_name" class="layui-input">
+    </div>
+</div>
+
+<div class="layui-form-item">
+    <label class="layui-form-label">展示标题</label>
+    <div class="layui-input-inline">
+        <input type="text" name="title" placeholder="请输入展示标题"
+               value="{{.data.title}}" id="title" lay-fiter="title" class="layui-input">
+    </div>
+
+    <label class="layui-form-label">楼栋号</label>
+    <div class="layui-input-inline">
+        <input type="text" name="dong_no" placeholder="请输入楼栋号"
+               value="{{.data.dong_no}}" id="dong_no" lay-fiter="dong_no" class="layui-input">
+    </div>
+    <label class="layui-form-label">座栋号</label>
+    <div class="layui-input-inline">
+        <input type="text" name="unit_no" placeholder="请输入座栋号"
+               value="{{.data.unit_no}}" id="unit_no" lay-fiter="unit_no" class="layui-input">
+    </div>
+</div>
+<div class="layui-form-item">
+
+    <label class="layui-form-label">地址</label>
+    <div class="layui-input-inline">
+        <input type="text" name="address" placeholder="请输入地址"
+               value="{{.data.address}}" id="address" lay-fiter="address" class="layui-input">
+    </div>
+
+
+    <label class="layui-form-label">楼层</label>
+    <div class="layui-input-inline">
+        <input type="text" name="floor_no" placeholder="请输入楼层"
+               value="{{.data.floor_no}}" id="floor_no" lay-fiter="floor_no" class="layui-input">
+    </div>
+    <label class="layui-form-label">总楼层</label>
+    <div class="layui-input-inline">
+        <input type="text" name="floor_sum" placeholder="请输入总楼层"
+               value="{{.data.floor_sum}}" id="floor_sum" lay-fiter="floor_sum" class="layui-input">
+    </div>
+</div>
+<div class="layui-form-item">
+
+    <label class="layui-form-label">房号</label>
+    <div class="layui-input-inline">
+        <input type="text" name="room_no" placeholder="请输入房号"
+               value="{{.data.room_no}}" id="room_no" lay-fiter="room_no" class="layui-input">
+    </div>
+
+    <label class="layui-form-label">面积</label>
+    <div class="layui-input-inline">
+        <input type="text" name="mj" placeholder="请输入面积"
+               value="{{.data.mj}}" id="mj" lay-fiter="mj" class="layui-input">
+    </div>
+    <label class="layui-form-label">建筑面积</label>
+    <div class="layui-input-inline">
+        <input type="text" name="zmj" placeholder="请输入建筑面积"
+               value="{{.data.zmj}}" id="zmj" lay-fiter="zmj" class="layui-input">
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">业主</label>
+    <div class="layui-input-inline">
+        <input type="text" name="m_id" placeholder="请输入业主"
+               value="{{.data.m_id}}" id="m_id" lay-fiter="m_id" class="layui-input">
+    </div>
+    <label class="layui-form-label">租金价格</label>
+    <div class="layui-input-inline">
+        <input type="text" name="price" placeholder="请输入租金价格"
+               value="{{.data.price}}" id="price" lay-fiter="price" class="layui-input">
+    </div>
+    <label class="layui-form-label">租房押金</label>
+    <div class="layui-input-inline">
+        <input type="text" name="deposit" placeholder="请输入租房押金"
+               value="{{.data.deposit}}" id="deposit" lay-fiter="deposit" class="layui-input">
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">房间数量</label>
+    <div class="layui-input-inline">
+        <input type="text" name="room_type" placeholder="请输入房间数量"
+               value="{{.data.room_type}}" id="room_type" lay-fiter="room_type" class="layui-input">
+    </div>
+    <label class="layui-form-label">厅数量</label>
+    <div class="layui-input-inline">
+        <input type="text" name="room_ting" placeholder="请输入厅数量"
+               value="{{.data.room_ting}}" id="room_ting" lay-fiter="room_ting" class="layui-input">
+    </div>
+    <label class="layui-form-label">卫生间数量</label>
+    <div class="layui-input-inline">
+        <input type="text" name="room_wei" placeholder="请输入卫生间数量"
+               value="{{.data.room_wei}}" id="room_wei" lay-fiter="room_wei" class="layui-input">
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">户型</label>
+    <div class="layui-input-inline">
+        <input type="text" name="house_type" placeholder="请输入户型"
+               value="{{.data.house_type}}" id="house_type" lay-fiter="house_type" class="layui-input">
+    </div>
+    <label class="layui-form-label">付款方式</label>
+    <div class="layui-input-inline">
+        <input type="text" name="pay_type" placeholder="请输入付款方式"
+               value="{{.data.pay_type}}" id="pay_type" lay-fiter="pay_type" class="layui-input">
+    </div>
+    <label class="layui-form-label">经纬度</label>
+    <div class="layui-input-inline">
+        <input type="text" name="jd" placeholder="请输入经纬度中的经度"
+               value="{{.data.jd}}" id="jd" lay-fiter="jd" class="layui-input layui-input-inline" style="width:50px">
+
+        <input type="text" name="wd" placeholder="请输入经纬度中的纬度"
+               value="{{.data.wd}}" id="wd" lay-fiter="wd" class="layui-input layui-input-liline" style="width:50px">
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">首页推荐</label>
+    <div class="layui-input-inline">
+
+        <input type="radio" name="recommend" value="11" title="是"
+               {{if eq .data.recommend "11"}}checked=""{{end}}>
+        <input type="radio" name="recommend" value="10" title="否"
+               {{if eq .data.recommend "10"}}checked=""{{end}}>
+    </div>
+</div>
+
+
+
+<div class="layui-form-item">
+    <label class="layui-form-label">水表底数</label>
+    <div class="layui-input-inline">
+        <input type="text" name="water_num" placeholder="请输入水表底数"
+               value="{{.data.water_num}}" id="water_num" lay-fiter="water_num" class="layui-input">
+    </div>
+    <label class="layui-form-label">电表底数</label>
+    <div class="layui-input-inline">
+        <input type="text" name="electric_num" placeholder="请输入电表底数"
+               value="{{.data.electric_num}}" id="electric_num" lay-fiter="electric_num"
+               class="layui-input">
+    </div>
+    <label class="layui-form-label">气表底数</label>
+    <div class="layui-input-inline">
+        <input type="text" name="gas_num" placeholder="请输入气表底数"
+               value="{{.data.gas_num}}" id="gas_num" lay-fiter="gas_num" class="layui-input">
+    </div>
+</div>
+
+<div class="layui-form-item">
+    <label class="layui-form-label">托管类型</label>
+    <div class="layui-input-block">
+
+        <input type="radio" name="sell_type" value="0" title="第三方托管"
+               {{if eq .data.sell_type "0"}}checked=""{{end}}>
+        <input type="radio" name="sell_type" value="1" title="自营"
+               {{if eq .data.sell_type "1"}}checked=""{{end}}>
+        <input type="radio" name="sell_type" value="2" title="全托管"
+               {{if eq .data.sell_type "2"}}checked=""{{end}}>
+    </div>
+</div>
+
+<div class="layui-form-item">
+    <label class="layui-form-label">同步支付宝</label>
+    <div class="layui-input-block">
+
+        <input type="radio" name="is_alipay" value="1" title="是"
+               {{if eq .data.is_alipay "1"}}checked=""{{end}}>
+        <input type="radio" name="is_alipay" value="0" title="否"
+               {{if eq .data.is_alipay "0"}}checked=""{{end}}>
+    </div>
+</div>
+
+<div class="layui-form-item">
+    <label class="layui-form-label">摘要</label>
+    <div class="layui-input-block">
+        <textarea  name="explain" class="layui-textarea">{{.data.explain}}</textarea>
+    </div>
+</div>
+
+<div class="layui-form-item layui-form-text">
+    <label class="layui-form-label">详情</label>
+    <div class="layui-input-block">
+        <textarea name="memo" id="memo">{{.data.memo }}</textarea>
+    </div>
+</div>
+
+{{end}}
